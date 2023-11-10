@@ -26,22 +26,22 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    //Calls the bluetooth manager and bluetooth adapter instances when needed.
     private val bluetoothManager by lazy {
         applicationContext.getSystemService(BluetoothManager::class.java)
     }
     private val bluetoothAdapter by lazy {
         bluetoothManager?.adapter
     }
-
+    // Checks if bluetooth is enabled on the device.
     private val isBluetoothEnabled: Boolean
         get() = bluetoothAdapter?.isEnabled == true
-
+    //requests permission for bluetooth and if permission is granted, loads the app.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val enableBluetoothLauncher = registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()
-        ) { /* Not needed */}
+        ) {}
 
         val permissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
         }
-
+        //Request bluetooth permissions if necessary.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             permissionLauncher.launch(
                 arrayOf(
@@ -85,19 +85,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-//@Composable
-//fun Greeting(name: String, modifier: Modifier = Modifier) {
-//    Text(
-//        text = "Hello $name!",
-//        modifier = modifier
-//    )
-//}
-//
-//@Preview(showBackground = true)
-//@Composable
-//fun GreetingPreview() {
-//    ProjectMobileappdevTheme {
-//        Greeting("Android")
-//    }
-//}
